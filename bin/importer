@@ -1,4 +1,4 @@
-#!/usr/bin/env jruby -J-Xmx12G
+#!/usr/bin/env jruby
 
 # Configure the above line to make use of the memory that you have available
 # on your machine
@@ -9,8 +9,10 @@ require 'fileutils'
 config = Bee::YAMLConfig.new(ARGV[0])
 
 oldb=config.get(:beedb)
-puts "Removing old database #{oldb}..."
-FileUtils.rm_rf(oldb)
+unless (oldb.nil?)
+  puts "Removing old database #{oldb}..."
+  FileUtils.rm_rf(oldb)
+end
 
 config.get(:loaders).each do |ldrname|
   loader = Bee.const_get(ldrname).new(config)

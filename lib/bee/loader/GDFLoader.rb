@@ -63,6 +63,7 @@ module Bee
         end
 
         @writer.addLabel(n, :gdf)
+        @writer.addDatabaseLabel(n)
 
         # implicit node check: redundant, so commented out
         #@writer.addProperty(n, :implicit, true)

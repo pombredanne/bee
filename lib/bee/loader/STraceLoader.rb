@@ -92,6 +92,7 @@ module Bee
           @writer.addProperty(n, "dir", rootify(task.currentDir,@config.get(:build_home)))
           @writer.addLabel(n, :process)
           @writer.addLabel(n, :strace)
+          @writer.addDatabaseLabel(n)
         end
         
         if (task.parentTask)
@@ -139,6 +140,7 @@ module Bee
           @writer.addProperty(n, "internal", internal)
           @writer.addLabel(n, :file)
           @writer.addLabel(n, :strace)
+          @writer.addDatabaseLabel(n)
         end
       end
 
@@ -159,6 +161,7 @@ module Bee
             @writer.addProperty(n, "nid", pkg)
             @writer.addLabel(n, :pkg)
             @writer.addLabel(n, :strace)
+            @writer.addDatabaseLabel(n)
           end
         end
             

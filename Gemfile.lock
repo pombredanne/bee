@@ -6,13 +6,10 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    active_attr (0.8.5)
-      activemodel (>= 3.0.2, < 5.0)
-      activesupport (>= 3.0.2, < 5.0)
-    activemodel (4.2.5)
-      activesupport (= 4.2.5)
+    activemodel (4.2.6)
+      activesupport (= 4.2.6)
       builder (~> 3.1)
-    activesupport (4.2.5)
+    activesupport (4.2.6)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -31,21 +28,21 @@ GEM
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    httpclient (2.7.1)
+    httpclient (2.8.0)
     i18n (0.7.0)
+    json (1.8.3)
     json (1.8.3-java)
-    minitest (5.8.4)
-    multi_json (1.11.2)
+    minitest (5.9.0)
+    multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    neo4j (6.1.3)
-      active_attr (~> 0.8)
+    neo4j (7.0.6)
       activemodel (~> 4)
       activesupport (~> 4)
       neo4j-core (>= 6.0.0)
       orm_adapter (~> 0.5.0)
     neo4j-community (2.2.4.1)
-    neo4j-core (6.1.1)
+    neo4j-core (6.1.4)
       activesupport
       faraday (~> 0.9.0)
       faraday_middleware (~> 0.10.0)
@@ -56,12 +53,12 @@ GEM
       multi_json
       neo4j-rake_tasks (>= 0.3.0)
       net-http-persistent
-    neo4j-rake_tasks (0.4.0)
+    neo4j-rake_tasks (0.5.4)
       colored
       httparty
       os
       rake
-      rubyzip (~> 1.1.7)
+      rubyzip (>= 1.1.7)
     net-http-persistent (2.9.4)
     orm_adapter (0.5.0)
     os (0.9.6)
@@ -70,7 +67,7 @@ GEM
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
       rspec-mocks (~> 3.4.0)
-    rspec-core (3.4.1)
+    rspec-core (3.4.4)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -79,13 +76,15 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    rubyzip (1.1.7)
+    rubyzip (1.2.0)
+    thread_safe (0.3.5)
     thread_safe (0.3.5-java)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   bee!
@@ -94,6 +93,3 @@ DEPENDENCIES
   neo4j-community
   rake (~> 10.0)
   rspec
-
-BUNDLED WITH
-   1.10.3

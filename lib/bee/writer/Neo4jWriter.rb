@@ -2,10 +2,18 @@ require 'neo4j-core'
 
 module Bee
   class Neo4jWriter < Writer
-    def initialize(db_path=".beedb")
-      @session = Neo4j::Session.open(:embedded_db, db_path)
-      @session.start
+    #if db_path is empty, we take server, otherwise embedded
+    def initialize(db_path=".beedb",label="")
+      if (db_path.empty?)
+        @session = Neo4j::Session.open(:server_db)
+        @embedded = false
+      else
+        @session = Neo4j::Session.open(:embedded_db, db_path)
+        @session.start
+        @embedded = true
+      end
 
+      @label = label
       @nodecache = Hash.new
     end
 
@@ -50,6 +58,13 @@ module Bee
       ele.add_label(label)
     end
 
+    #label separating separate builds' databases inside server
+    def addDatabaseLabel(ele)
+      unless (@embedded or @label.empty?)
+        ele.add_label(@label)
+      end
+    end
+
     def getProperty(ele, key)
       return ele[key]
     end
@@ -58,9 +73,9 @@ module Bee
       mynode = Neo4j::Node.load(@nodecache[value])
       if (!mynode) # Cache miss
         mynodes = Neo4j::Label.find_nodes(:node, key, value)
-        if (mynodes.size == 1) # we found it!
+        if (mynodes.count == 1) # we found it!
           mynode = mynodes[0] 
-        elsif (mynodes.size == 0) # Not in graph
+        elsif (mynodes.count == 0) # Not in graph
           if (add) # Should we try to add the node?
             mynode = addNode(value) do |n|
               addProperty(n, key, value)
@@ -69,7 +84,7 @@ module Bee
             #raise "ERROR: Node with property '#{key}' = '#{value}' not found"
             mynode = nil
           end
-        elsif (mynodes.size > 1)
+        elsif (mynodes.count > 1)
           raise "ERROR: Unexpected number of nodes #{mynodes.size} with property '#{key}' = '#{value}'"
         else
           raise "ERROR: Something very strange happened..."
@@ -84,7 +99,10 @@ module Bee
     end
 
     def finished
-      @session.shutdown
+      if (@embedded)
+        @session.shutdown
+      end
+      
       @session.close
     end
   end
