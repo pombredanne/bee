@@ -8,6 +8,11 @@ require 'fileutils'
 
 config = Bee::YAMLConfig.new(ARGV[0])
 
+#optional first argument allows overriding label configuration
+unless (ARGV[1].nil?)
+  config.set(:label,ARGV[1])
+end
+
 oldb=config.get(:beedb)
 unless (oldb.nil?)
   puts "Removing old database #{oldb}..."

@@ -9,5 +9,9 @@ module Bee
     def get(id)
       return @cfgobj[id.to_s]
     end
+
+    def set(id,val)
+      @cfgobj[id.to_s]=val
+    end
   end
 end
