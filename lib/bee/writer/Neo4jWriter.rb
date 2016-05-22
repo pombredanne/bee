@@ -4,16 +4,19 @@ module Bee
   class Neo4jWriter < Writer
     #if db_path is empty, we take server, otherwise embedded
     def initialize(db_path=".beedb",label="")
+      @label = label
+      
       if (db_path.empty?)
         @session = Neo4j::Session.open(:server_db)
         @embedded = false
+        #Removing old data for label #{@label}...
+        @session.query("MATCH (n:#{@label}) DETACH DELETE n")
       else
         @session = Neo4j::Session.open(:embedded_db, db_path)
         @session.start
         @embedded = true
       end
 
-      @label = label
       @nodecache = Hash.new
     end
 

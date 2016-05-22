@@ -93,3 +93,6 @@ DEPENDENCIES
   neo4j-community
   rake (~> 10.0)
   rspec
+
+BUNDLED WITH
+   1.10.3
