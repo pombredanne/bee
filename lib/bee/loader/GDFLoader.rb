@@ -161,7 +161,8 @@ module Bee
     end
   
     def remove_orphans
-      Neo4j::Session.query("MATCH (n:gdf) WHERE not( (n)-[]-() ) DELETE n")
+      la = config.get(:label)
+      Neo4j::Session.query("MATCH (n:#{la}:gdf) WHERE not( (n)-[]-() ) DELETE n")
     end
   end
 end

@@ -6,15 +6,24 @@ module Bee
 
      def initialize(config)
        db_path = config.get(:beedb)
-       @session = Neo4j::Session.open(:embedded_db, db_path)
-       @session.start
+       @label = config.get(:label)
+
+       if (db_path.empty?)
+         @session = Neo4j::Session.open(:server_db)
+         @embedded = false
+       else
+         @session = Neo4j::Session.open(:embedded_db, db_path)
+         @session.start
+         @embedded = true
+       end
+       
        @dependencies = Hash.new
        @logger = Logger.new(config.get(:outputfile))
        @ignore_patterns = config.get(:ignore_patterns)
      end
 
      def get_dependencies()
-       data = Neo4j::Session.query("MATCH (node1:gdf)-[:depends*1..3]->(node2:gdf) return node1,node2")
+       data = Neo4j::Session.query("MATCH (node1:#{@label}:gdf)-[:depends*1..3]->(node2:#{@label}:gdf) return node1,node2")
        data.each do |d|
         n1 = d.node1[:name]
         n2 = d.node2[:name]
@@ -27,7 +36,7 @@ module Bee
 
      def get_rw_nodes()
        # notice: results of this query represent a bug if there is no dependency n2->n1  !!
-       return Neo4j::Session.query("MATCH (node1:gdf)-[:read]->(compiler:strace)-[:write*0..5]->(node3)-[:write]->(node2:gdf) return node1, node2,compiler")
+       return Neo4j::Session.query("MATCH (node1:#{@label}:gdf)-[:read]->(compiler:strace)-[:write*0..5]->(node3)-[:write]->(node2:#{@label}:gdf) return node1, node2,compiler")
      end
 
 
