@@ -72,7 +72,11 @@ module Bee
     def getNode(key, value, add=false)
       mynode = Neo4j::Node.load(@nodecache[value])
       if (!mynode) # Cache miss
-        mynodes = Neo4j::Label.find_nodes(:node, key, value)
+        if(@embedded)
+          mynodes = Neo4j::Label.find_nodes(:node, key, value).to_a
+        else
+          mynodes = Neo4j::Label.find_nodes(@label.to_sym, key, value).to_a
+        end
         if (mynodes.count == 1) # we found it!
           mynode = mynodes[0] 
         elsif (mynodes.count == 0) # Not in graph
