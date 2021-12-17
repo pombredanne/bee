@@ -8,7 +8,7 @@ module Bee
       beedb = config.get(:beedb)
       @writer = beedb ?
         Bee.const_get(config.get(:writer)).new(beedb) :
-        Bee.const_get(config.get(:writer)).new
+        Bee.const_get(config.get(:writer)).new("",config.get(:label))
       @fname = fname
       @config = config
 

@@ -47,7 +47,8 @@ module Bee
       #Neo4j::Session.query.match("(n {implicit:true})").optional_match("(n)-[r]-()").return("n,r").delete("n,r")
 
       # .optional_match("(n)-[r]-()").delete("n,r")
-      Neo4j::Session.query("MATCH (n {implicit:true}) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
+      la = config.get(:label)
+      Neo4j::Session.query("MATCH (n:#{la} {implicit:true}) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
     end
   end
 end

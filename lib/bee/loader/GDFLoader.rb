@@ -51,7 +51,7 @@ module Bee
     def node(row_spl)
 
       # check if node is in use
-      is_inuse = row_spl[1].eql?("1")
+      is_inuse = row_spl[11].eql?("1")
       
       # Skip uninteresting nodes
       return if (isJunk(row_spl[0]) or !is_inuse)
@@ -63,6 +63,7 @@ module Bee
         end
 
         @writer.addLabel(n, :gdf)
+        @writer.addDatabaseLabel(n)
 
         # implicit node check: redundant, so commented out
         #@writer.addProperty(n, :implicit, true)
@@ -160,7 +161,8 @@ module Bee
     end
   
     def remove_orphans
-      Neo4j::Session.query("MATCH (n:gdf) WHERE not( (n)-[]-() ) DELETE n")
+      la = @config.get(:label)
+      Neo4j::Session.query("MATCH (n:#{la}:gdf) WHERE not( (n)-[]-() ) DELETE n")
     end
   end
 end

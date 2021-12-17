@@ -50,6 +50,9 @@ module Bee
       elsif (@data =~ /\+\+\+ exited with ([0-9]+) \+\+\+$/) 
         op = 'exited'
         resultValue = $1
+      elsif (@data =~ /^<\.\.\. (\w+) resumed>/)
+        #ignore the "resumed" part of syscalls, which indicates when preempted call was resumed                                            
+        nil
       elsif (@data =~ /^<\.\.\. (\w+)/) 
         #op = $1 + "-cont"
         fatalAndRaise("Encountered unexpected operation in #{@data}")
